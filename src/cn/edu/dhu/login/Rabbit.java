@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
 
 public class Rabbit {
 
-	private static String UA = "XOXOXOXO";
+	private static String UA = "Mozilla/5.0 (compatible; DHU-network-login-helper/1.1)";
 	private static String URL_POST = "https://securelogin.arubanetworks.com/auth/index.html/u";
 	private static String URL_VERIFY = "http://dhunews.sinaapp.com/howareyou";
 	private static String LOGIN_PAGE_ENC = "gbk";
