@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">东华校园网登录助手</string>
+    <string name="login_dialog_title">亲，登录否？</string>
+    <string name="dft_username">学号</string>
+    <string name="dft_passwd">密码</string>
+    <string name="preferences_name">userinfo</string>
+
+</resources>
