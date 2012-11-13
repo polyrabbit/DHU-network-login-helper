@@ -9,12 +9,14 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Rabbit {
 
 	private static String UA = "Mozilla/5.0 (compatible; DHU-network-login-helper/1.1)";
 	private static String URL_POST = "https://securelogin.arubanetworks.com/auth/index.html/u";
-	private static String URL_VERIFY = "http://dhunews.sinaapp.com/howareyou";
+	private static String URL_VERIFY = "http://localhost:8080/howareyou";
 	private static String LOGIN_PAGE_ENC = "gbk";
 	private static int TIME_OUT = 10000;
 	static {
@@ -85,6 +87,7 @@ public class Rabbit {
     	URL req = new URL(url);
 		HttpURLConnection conn = (HttpURLConnection)req.openConnection();
 		conn.setRequestProperty("User-Agent", UA);
+//		conn.setInstanceFollowRedirects(true); //the default one
 		conn.setConnectTimeout(timeOut);
 		conn.setReadTimeout(timeOut);		
 //		conn.connect();
@@ -103,7 +106,7 @@ public class Rabbit {
 		conn.setRequestProperty("User-Agent", UA);
 		conn.addRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 		conn.setFixedLengthStreamingMode(data.length());
-//		HttpURLConnection.setFollowRedirects(false); //TODO next life.
+		conn.setInstanceFollowRedirects(false);
 		conn.setConnectTimeout(timeOut);
 		conn.setReadTimeout(timeOut);
 		conn.setDoOutput(true);
@@ -118,20 +121,27 @@ public class Rabbit {
     }
     
     public static String urlreader(HttpURLConnection conn) {
+    	String charset = "utf-8";
+    	Pattern patt_charset = Pattern.compile("charset=(.+)$", Pattern.CASE_INSENSITIVE);
+    	Matcher mat_charset = patt_charset.matcher(conn.getContentType());
+    	if(mat_charset.find()){
+    		charset = mat_charset.group(1);
+    	}
     	try {
-	        InputStreamReader ireader = new InputStreamReader(conn.getInputStream(), "utf-8");
-	        StringBuilder sb = new StringBuilder();
-	        int fkJava = 0;
-	        while((fkJava=ireader.read())!=-1) {
-	        	sb.append((char)fkJava);
-	        }
-			return sb.toString();
+	        InputStreamReader ireader = new InputStreamReader(conn.getInputStream(), charset);
+	        int content_length = conn.getContentLength()==-1 ? 8192:conn.getContentLength();
+	        char[] quote = new char[content_length];
+	        int len = ireader.read(quote);
+	        return String.valueOf(quote, 0, len);
+    	} catch (UnsupportedEncodingException e) {
+    		return urlerror("额..服务器貌似出故障了, 不认识的编码"+e.getMessage()+"。");
         } catch (IOException e) {
-        	return "Failed!! " + e.toString();
+        	return urlerror(e.toString());
         }
     }
     
     public static String urlerror(String msg) {
+    	if(msg==null) msg = "unknown reason.";
     	return "Failed!! " + msg + " -- rabbit";
     }
 }
