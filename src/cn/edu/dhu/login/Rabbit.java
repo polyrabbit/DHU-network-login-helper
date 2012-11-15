@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -16,7 +17,7 @@ public class Rabbit {
 
 	private static String UA = "Mozilla/5.0 (compatible; DHU-network-login-helper/1.1)";
 	private static String URL_POST = "https://securelogin.arubanetworks.com/auth/index.html/u";
-	private static String URL_VERIFY = "http://localhost:8080/howareyou";
+	private static String URL_VERIFY = "http://dhunews.sinaapp.com/howareyou";
 	private static String LOGIN_PAGE_ENC = "gbk";
 	private static int TIME_OUT = 10000;
 	static {
@@ -27,7 +28,7 @@ public class Rabbit {
 	
     public static String login(String username, String password) {
     	try {
-    		int timeOut = 1000;
+    		int timeOut = 1200;
     		HttpURLConnection conn = urlopen(URL_VERIFY, timeOut);
 			if("fine".equalsIgnoreCase(conn.getHeaderField("X-How-Are-You"))) {
 				return urlreader(conn);
@@ -55,6 +56,8 @@ public class Rabbit {
 			throw new Exception("maybe try again later or maybe wrong username and password.");
         } catch (SocketTimeoutException e) {
     		return urlerror("Ç×£¬Ã²ËÆÄãµÄÍøÂç²»Ì«ÎÈ¶¨Ñ½^_^");
+        } catch (SocketException e) {
+        	return urlerror("Ç×£¬Ã²ËÆÄãµÄÍøÂç²»Ì«ÎÈ¶¨Ñ½^_^");
 		} catch (Exception e) {
 			return urlerror(e.getMessage());
 		}
