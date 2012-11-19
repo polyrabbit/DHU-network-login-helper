@@ -1,2 +1,3 @@
 增加padding-bottom，现有的太小了
 增加对<li>的支持，有太多的地方要用到li了
+Add android:scrollHorizontally="true"，比方说文字太多的时候要用到
