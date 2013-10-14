@@ -4,8 +4,9 @@ public class LoginFailException extends Exception {
 	private String msg;
 	
 	public LoginFailException(String msg) {
-    	if(msg==null) msg = "unknown reason.";
-    	msg = "Failed!! " + msg + " -- rabbit";
+    	if(msg==null)
+    		msg = "unknown reason.";
+    	msg = "<font color=\"#C80000\">Failed, </font>" + msg;
     }
 	
 	@Override
