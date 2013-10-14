@@ -42,8 +42,8 @@ public class UserInfoActivity extends Activity implements OnClickListener, OnFoc
 			.setTitle(R.string.login_dialog_title)
 			.setIcon(R.drawable.ic_launcher_info)
 			.setView(layout)
-			.setPositiveButton("好的", this)
-			.setNegativeButton("再等会", this)
+			.setPositiveButton("Yep", this)
+			.setNegativeButton("Nope", this)
 			.setOnCancelListener(this)
 			.show()
 			.getButton(AlertDialog.BUTTON_POSITIVE);
