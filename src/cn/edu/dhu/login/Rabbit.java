@@ -27,7 +27,7 @@ public class Rabbit {
 //    	System.setProperty("sun.net.client.defaultReadTimeout", TIME_OUT);
 	}
 	
-    public static String login(String username, String password) {
+    public static String login(String username, String password) throws LoginFailException {
     	try {
     		int timeOut = 1200;
     		HttpURLConnection conn = urlopen(URL_VERIFY, timeOut);
@@ -35,7 +35,7 @@ public class Rabbit {
 				return urlreader(conn);
 			}
     	} catch(UnknownHostException e) {
-    		return urlerror("亲，貌似你还没有连网哦^_^");
+    		throw new LoginFailException("亲，貌似你还没有连网哦^_^");
 		} catch (Exception e) {
 		}
     	
@@ -43,8 +43,9 @@ public class Rabbit {
 			String postData = urlencode(new String[] {"user", username, "password", password});
 			urlopen(URL_POST, postData);
     	} catch (SocketTimeoutException e) {
-    		return urlerror("亲，貌似你的网络不太稳定呀^_^");
+    		throw new LoginFailException("亲，貌似你的网络不太稳定呀^_^");
 		} catch (Exception e) {
+			// Yes, go silently.
 		}
 		
         try {
@@ -56,11 +57,11 @@ public class Rabbit {
 			}
 			throw new Exception("maybe try again later or maybe wrong username and password.");
         } catch (SocketTimeoutException e) {
-    		return urlerror("亲，貌似你的网络不太稳定呀^_^");
+    		throw new LoginFailException("亲，貌似你的网络不太稳定呀^_^");
         } catch (SocketException e) {
-        	return urlerror("亲，貌似你的网络不太稳定呀^_^");
+        	throw new LoginFailException("亲，貌似你的网络不太稳定呀^_^");
 		} catch (Exception e) {
-			return urlerror(e.getMessage());
+			throw new LoginFailException(e.getMessage());
 		}
     }
     
@@ -124,7 +125,7 @@ public class Rabbit {
 		return conn;
     }
     
-    public static String urlreader(HttpURLConnection conn) {
+    public static String urlreader(HttpURLConnection conn) throws LoginFailException {
     	String charset = "utf-8";
     	Pattern patt_charset = Pattern.compile("charset=(.+)$", Pattern.CASE_INSENSITIVE);
     	Matcher mat_charset = patt_charset.matcher(conn.getContentType());
@@ -133,17 +134,13 @@ public class Rabbit {
     	}
     	try {
 	        Scanner s = new Scanner(conn.getInputStream(), charset).useDelimiter("\\A");
+            //TODO close shit
             //TODO what if is none?
             return s.hasNext() ? s.next() : "";
     	} catch (UnsupportedEncodingException e) {
-    		return urlerror("额..服务器貌似出故障了, 不认识的编码"+e.getMessage()+"。");
+    		throw new LoginFailException("额..服务器貌似出故障了, 不认识的编码"+e.getMessage()+"。");
         } catch (IOException e) {
-        	return urlerror(e.toString());
+        	throw new LoginFailException(e.toString());
         }
-    }
-    
-    public static String urlerror(String msg) {
-    	if(msg==null) msg = "unknown reason.";
-    	return "Failed!! " + msg + " -- rabbit";
     }
 }

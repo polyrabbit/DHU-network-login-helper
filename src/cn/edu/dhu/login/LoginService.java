@@ -33,17 +33,22 @@ public class LoginService extends IntentService {
 		Notification noti = new Notification(R.drawable.ic_launcher_info, "正在努力的登录中...", 0);
 		noti.flags = Notification.FLAG_ONGOING_EVENT;
 		noti.setLatestEventInfo(this, "正在登录 "+username, "点此取消登录", pIntent);
-		notiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		notiManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 		notiManager.notify(noti_id, noti);
 		
-		String quote =  Rabbit.login(username, passwd);
-		if(!quote.startsWith("Failed!!")) {
+		String quote = null;
+		try {
+			quote =  Rabbit.login(username, passwd);
+			
+			// successfully logged in
 			SharedPreferences preferences = getSharedPreferences(getString(R.string.preferences_name), Activity.MODE_PRIVATE);
 	    	SharedPreferences.Editor editor = preferences.edit();
 	    	editor.putString("username", username)
 	    		.putString("passwd", passwd)
 	    		.commit();
-		}		
+		} catch(LoginFailException e) {
+			quote = e.toString();
+		}
 		
 		it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		it.putExtra("quote", quote);
