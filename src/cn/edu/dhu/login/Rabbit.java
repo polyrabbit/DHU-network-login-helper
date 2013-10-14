@@ -10,6 +10,7 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -131,11 +132,9 @@ public class Rabbit {
     		charset = mat_charset.group(1);
     	}
     	try {
-	        InputStreamReader ireader = new InputStreamReader(conn.getInputStream(), charset);
-	        int content_length = conn.getContentLength()==-1 ? 8192:conn.getContentLength();
-	        char[] quote = new char[content_length];
-	        int len = ireader.read(quote);
-	        return String.valueOf(quote, 0, len);
+	        Scanner s = new Scanner(conn.getInputStream(), charset).useDelimiter("\\A");
+            //TODO what if is none?
+            return s.hasNext() ? s.next() : "";
     	} catch (UnsupportedEncodingException e) {
     		return urlerror("额..服务器貌似出故障了, 不认识的编码"+e.getMessage()+"。");
         } catch (IOException e) {
