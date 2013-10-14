@@ -30,9 +30,9 @@ public class LoginService extends IntentService {
 		String username = b.getString("username");
 		String passwd = b.getString("passwd");
 		
-		Notification noti = new Notification(R.drawable.ic_launcher_info, "正在努力的登录中...", 0);
+		Notification noti = new Notification(R.drawable.ic_launcher_info, "姝ｅ湪鍔姏鐨勭櫥褰曚腑...", 0);
 		noti.flags = Notification.FLAG_ONGOING_EVENT;
-		noti.setLatestEventInfo(this, "正在登录 "+username, "点此取消登录", pIntent);
+		noti.setLatestEventInfo(this, "姝ｅ湪鐧诲綍 "+username, "鐐规鍙栨秷鐧诲綍", pIntent);
 		notiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		notiManager.notify(noti_id, noti);
 		

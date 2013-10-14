@@ -34,7 +34,7 @@ public class Rabbit {
 				return urlreader(conn);
 			}
     	} catch(UnknownHostException e) {
-    		return urlerror("Ç×£¬Ã²ËÆÄã»¹Ã»ÓĞÁ¬ÍøÅ¶^_^");
+    		return urlerror("äº²ï¼Œè²Œä¼¼ä½ è¿˜æ²¡æœ‰è¿ç½‘å“¦^_^");
 		} catch (Exception e) {
 		}
     	
@@ -42,7 +42,7 @@ public class Rabbit {
 			String postData = urlencode(new String[] {"user", username, "password", password});
 			urlopen(URL_POST, postData);
     	} catch (SocketTimeoutException e) {
-    		return urlerror("Ç×£¬Ã²ËÆÄãµÄÍøÂç²»Ì«ÎÈ¶¨Ñ½^_^");
+    		return urlerror("äº²ï¼Œè²Œä¼¼ä½ çš„ç½‘ç»œä¸å¤ªç¨³å®šå‘€^_^");
 		} catch (Exception e) {
 		}
 		
@@ -55,9 +55,9 @@ public class Rabbit {
 			}
 			throw new Exception("maybe try again later or maybe wrong username and password.");
         } catch (SocketTimeoutException e) {
-    		return urlerror("Ç×£¬Ã²ËÆÄãµÄÍøÂç²»Ì«ÎÈ¶¨Ñ½^_^");
+    		return urlerror("äº²ï¼Œè²Œä¼¼ä½ çš„ç½‘ç»œä¸å¤ªç¨³å®šå‘€^_^");
         } catch (SocketException e) {
-        	return urlerror("Ç×£¬Ã²ËÆÄãµÄÍøÂç²»Ì«ÎÈ¶¨Ñ½^_^");
+        	return urlerror("äº²ï¼Œè²Œä¼¼ä½ çš„ç½‘ç»œä¸å¤ªç¨³å®šå‘€^_^");
 		} catch (Exception e) {
 			return urlerror(e.getMessage());
 		}
@@ -137,7 +137,7 @@ public class Rabbit {
 	        int len = ireader.read(quote);
 	        return String.valueOf(quote, 0, len);
     	} catch (UnsupportedEncodingException e) {
-    		return urlerror("¶î..·şÎñÆ÷Ã²ËÆ³ö¹ÊÕÏÁË, ²»ÈÏÊ¶µÄ±àÂë"+e.getMessage()+"¡£");
+    		return urlerror("é¢..æœåŠ¡å™¨è²Œä¼¼å‡ºæ•…éšœäº†, ä¸è®¤è¯†çš„ç¼–ç "+e.getMessage()+"ã€‚");
         } catch (IOException e) {
         	return urlerror(e.toString());
         }
