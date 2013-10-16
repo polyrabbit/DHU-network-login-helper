@@ -23,3 +23,6 @@
 
 	安装文件：[apk](http://dhunews-dhuloginhelper.stor.sinaapp.com/DHU_network_login_helper.apk)  
 	源代码：  [src](http://dhunews-dhuloginhelper.stor.sinaapp.com/%E4%B8%9C%E5%8D%8E%E5%A4%A7%E5%AD%A6%E6%A0%A1%E5%9B%AD%E7%BD%91%E7%99%BB%E5%BD%95%E5%8A%A9%E6%89%8B%28Android%29.zip)
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/polyrabbit/dhu-network-login-helper/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
