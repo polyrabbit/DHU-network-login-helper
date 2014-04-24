@@ -13,7 +13,7 @@ debug = False
 
 br = mechanize.Browser()
 br.set_handle_robots(False)
-br.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.1.11) Gecko/20100701 Firefox/3.5.11')]
+br.addheaders = [('User-agent', 'Mozilla/5.0 (compatible; DHU-network-login-helper/1.2)')]
 
 def check_online():
     resp = br.open(CHK_ULR)
